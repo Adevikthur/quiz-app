@@ -1,3 +1,5 @@
+
+// Array of quiz questions and their possible answers
 const questions = [
   {
     question: "Which is the largest animal in the world?",
@@ -52,20 +54,30 @@ const questions = [
   },
 ];
 
+// Get DOM elements
 const questionElement = document.getElementById("question");
-const answerButtons = document.querySelector(".options");
+const answerButtons = document.querySelector(".answer-buttons");
 const nextButton = document.getElementById("next-btn");
 
+// Initialize quiz state variables
 let currentQuestionIndex = 0;
 let score = 0;
 
+/**
+ * Starts or restarts the quiz
+ * Resets score and question index, updates UI
+ */
 function startQuiz() {
   currentQuestionIndex = 0;
   score = 0;
-  nextButton.innerHTML = "Next";
+  nextButton.textContent = "Next";
   showQuestion();
 }
 
+/**
+ * Resets the quiz interface state
+ * Hides next button and removes all answer buttons
+ */
 function resetState() {
   nextButton.style.display = "none";
   while (answerButtons.firstChild) {
@@ -73,6 +85,10 @@ function resetState() {
   }
 }
 
+/**
+ * Displays the current question and its answer options
+ * Creates button elements for each answer option
+ */
 function showQuestion() {
   resetState();
   let currentQuestion = questions[currentQuestionIndex];
@@ -95,6 +111,11 @@ function showQuestion() {
   });
 }
 
+/**
+ * Handles answer selection
+ * Updates UI to show correct/incorrect answers
+ * @param {Event} e - Click event object
+ */
 function selectAnswer(e) {
   const selectedBtn = e.target;
   const isCorrect = selectedBtn.dataset.correct === "true";
@@ -113,6 +134,10 @@ function selectAnswer(e) {
   nextButton.style.display = "block";
 }
 
+/**
+ * Resets the quiz interface state
+ * Hides next button and removes all answer buttons
+ */
 function resetState() {
   nextButton.style.display = "none";
   while (answerButtons.firstChild) {
@@ -120,4 +145,38 @@ function resetState() {
   }
 }
 
+/**
+ * Handles the next button click
+ * Moves to next question or shows final score
+ */
+function handleNextButton() {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < questions.length) {
+    showQuestion();
+  } else {
+    showScore();
+  }
+}
+
+/**
+ * Displays the final score
+ * Updates UI to show score and reset option
+ */
+function showScore() {
+  resetState();
+  questionElement.textContent = `You scored ${score} out of ${questions.length}!`;
+  nextButton.textContent = "Play Again";
+  nextButton.style.display = "block";
+}
+
+// Event listener for next/play again button
+nextButton.addEventListener("click", () => {
+  if (currentQuestionIndex < questions.length) {
+    handleNextButton();
+  } else {
+    startQuiz();
+  }
+});
+
+// Initialize the quiz
 startQuiz();

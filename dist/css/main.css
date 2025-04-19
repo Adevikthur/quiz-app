@@ -67,4 +67,12 @@ body {
   border-radius: 4px;
   cursor: pointer;
   display: none;
+}
+
+.correct {
+  background: #9aeabc;
+}
+
+.incorrect {
+  background: #ff9393;
 }/*# sourceMappingURL=main.css.map */
